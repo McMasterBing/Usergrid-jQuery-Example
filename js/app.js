@@ -117,7 +117,6 @@ $(document).ready(function () {
    function put() {
       var path = $("#put-path").val();
       var data = $("#put-data").val();
-      data = JSON.parse(data);
       apiRequest('PUT', path, data,
          function(response) {
            var output = JSON.stringify(response);
