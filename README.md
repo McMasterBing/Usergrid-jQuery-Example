@@ -32,15 +32,90 @@ The js/app.js file is where all the javascript code resides and where all calls 
 	var org = 'apigee'; //<== your organizaiton
 	var app = 'sandbox';//<== your application
 
-And put in your account information, so that when you run the app it will connect to the correct account.
+And put in your account information, so that when you run the code it will connect to the correct account.
 
-The main functions are **get**, **post**, **put**, and **deleteF** (delete is a keyword).  All of these functions take their input and call the **apiRequest** method.  The **apiRequest** method is what actually makes a call to the server.
+The main functions are **_get**, **_post**, **_put**, and **_delete**.  All of these functions pull their input from the form, and then call the **apiRequest** method.  The **apiRequest** method is what actually makes a call to the server.
 
-**Note:** this example uses the "Sandbox" application that comes with your new account.  It does not use authentication tokens, although it could be easily extended to do so as the code to add the token to the header is in the apiRequest method.  
+**Note:** this example uses the "Sandbox" application that comes with your new account.  The Sandbox app does not require authentication tokens and this jQuery example doesn't use them.  However, it could be easily extended to do so because the code to add the token to the header is in the apiRequest method.   
 
 ##The App
-The app supports all 4 types of calls (GET, POST, PUT, and DELETE).  Select the method you want to run,
+The app supports all 4 call types (GET, POST, PUT, and DELETE).  Select the method you want to run by pressing one of the 4 buttons.
 
+###GET
+To test this method, enter the path of the endpoint you wish to retrieve.  For example, to get all users, enter:
+
+	/users
+	
+To get a specific user, enter:
+
+	/users/username
+	
+Often, you may want to append query parameters to the end of the URL for things like searching.  Simply append those to the "path" variable like so:
+
+	/users?ql=select * where username = 'fred*'
+	
+Which, after you press the run query button, will be translated into a url encoded string prior to being sent to the API, and will look like this:
+
+	/users%3Fql%3Dselect%20*%20where%20username%20%3D%20'fred*'
+
+This happens in the **apiRequest** method, when the ajax request is being prepared:
+
+	url: apiUrl + encodeURIComponent(path),	
+	
+###POST
+The POST method takes both a path and a request body (in Json).  For example, to create a new user, enter the path:
+
+	/users
+	
+and a request body that contains at least a username:
+
+	{"username":"fred"}
+
+The above combination will create a new user with a username of fred.
+
+###PUT
+The PUT screen works the same as POST - enter a path and request body. For example, to update the user "fred", enter a path like this:
+
+	/users/fred
+	
+and a request body like:
+
+	{"othervalue":"12345"}
+	
+This will update / add a key called "othervalue" with a value of "12345" to the entity.
+
+
+###DELETE
+Surprisingly, DELETE is most like a GET in that it only takes a path, and no request body.  Simply specify the path to the entity you want to delete:
+
+	/users/fred
+	
+This will delete the user entity with the username of "fred".
+
+##Under the hood
+The code in this example is all standard Javascript and jQuery. The most interesting part will likely be the section of code that actually makes the calls to the API.
+
+As mentioned above, all calls are eventually routed to a function called **apiRequest**.  This method does 3 things.  First, it prepares the ajax options:
+
+	var ajaxOptions = {
+      type: method.toUpperCase(),
+      url: apiUrl + encodeURIComponent(path),
+      success: success,
+      error: error,
+      data: data || {},
+      contentType: "application/json; charset=utf-8",
+      dataType: "json"
+    }
+
+Second, it appends an oauth token if one is available.  These lines are not currently used as this example never uses a token.  But, we have included them here to show you how you would add the token if your app uses one:
+
+   	ajaxOptions.beforeSend = function(xhr) {
+		if (accessToken) { xhr.setRequestHeader("Authorization", "Bearer " + session.accessToken) }
+	}
+
+Finally, the third thing it does is actually make the ajax call via jQuery:
+
+    $.ajax(ajaxOptions);
 
 ##Known issues
 This code (the jQuery ajax function) will not fully work with Internet Explorer < version 10.  In version 10, Microsoft finally implemented XMLHttpRequest which makes all the magic possible. 
