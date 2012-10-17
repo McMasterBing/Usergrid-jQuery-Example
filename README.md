@@ -38,6 +38,10 @@ The main functions are **get**, **post**, **put**, and **deleteF** (delete is a 
 
 **Note:** this example uses the "Sandbox" application that comes with your new account.  It does not use authentication tokens, although it could be easily extended to do so as the code to add the token to the header is in the apiRequest method.  
 
+##The App
+The app supports all 4 types of calls (GET, POST, PUT, and DELETE).  Select the method you want to run,
+
+
 ##Known issues
 This code (the jQuery ajax function) will not fully work with Internet Explorer < version 10.  In version 10, Microsoft finally implemented XMLHttpRequest which makes all the magic possible. 
 

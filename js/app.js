@@ -58,19 +58,19 @@ $(document).ready(function () {
    });
 
    $('#run-get').bind('click', function() {
-      get();
+      _get();
    });
 
    $('#run-post').bind('click', function() {
-      post();
+      _post();
    });
 
    $('#run-put').bind('click', function() {
-      put();
+      _put();
    });
 
    $('#run-delete').bind('click', function() {
-      deleteF();
+      _delete();
    });
 
 
@@ -87,7 +87,7 @@ $(document).ready(function () {
    });
 
 
-   function get() {
+   function _get() {
       var path = $("#get-path").val();
       apiRequest('GET', path, null,
          function(response) {
@@ -100,7 +100,7 @@ $(document).ready(function () {
       );
    }
 
-   function post() {
+   function _post() {
       var path = $("#post-path").val();
       var data = $("#post-data").val();
       apiRequest('POST', path, data,
@@ -114,7 +114,7 @@ $(document).ready(function () {
       );
    }
 
-   function put() {
+   function _put() {
       var path = $("#put-path").val();
       var data = $("#put-data").val();
       apiRequest('PUT', path, data,
@@ -128,7 +128,7 @@ $(document).ready(function () {
       );
    }
 
-    function deleteF() {
+    function _delete() {
       var path = $("#delete-path").val();
       apiRequest('DELETE', path, null,
          function(response) {
@@ -145,7 +145,7 @@ $(document).ready(function () {
 
     var ajaxOptions = {
       type: method.toUpperCase(),
-      url: apiUrl + path,
+      url: apiUrl + encodeURIComponent(path),
       success: success,
       error: error,
       data: data || {},
@@ -153,7 +153,7 @@ $(document).ready(function () {
       dataType: "json"
     }
 
-   ajaxOptions.beforeSend = function(xhr) {
+    ajaxOptions.beforeSend = function(xhr) {
        if (accessToken) { xhr.setRequestHeader("Authorization", "Bearer " + session.accessToken) }
     }
 
