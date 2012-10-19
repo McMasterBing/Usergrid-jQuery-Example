@@ -28,8 +28,13 @@
 *  This file contains the main program logic for Dogs.
 */
 $(document).ready(function () {
+
+   //Your org and app combination - change this!!
+   var org = 'apigee'; //<== your organization
+   var app = 'sandbox';//<== your application
+
    //path to the api
-   var apiUrl = "https://api.usergrid.com/apigee/sandbox/";
+   var apiUrl = "https://api.usergrid.com/"+org+"/"+app+"/";
    var accessToken = null;
    
    //bind the show buttons
