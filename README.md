@@ -39,7 +39,7 @@ The main functions are **_get**, **_post**, **_put**, and **_delete**.  All of t
 **Note:** this example uses the "Sandbox" application that comes with your new account.  The Sandbox app does not require authentication tokens and this jQuery example doesn't use them.  However, it could be easily extended to do so because the code to add the token to the header is in the apiRequest method.   
 
 ##The App
-The app supports all 4 call types (GET, POST, PUT, and DELETE).  Select the method you want to run by pressing one of the 4 buttons.
+The app supports all 4 call types (GET, POST, PUT, and DELETE, a Login example).  Select the method you want to run by pressing one of the 4 buttons.
 
 ###GET
 To test this method, enter the path of the endpoint you wish to retrieve.  For example, to get all users, enter:
@@ -91,6 +91,16 @@ Surprisingly, DELETE is most like a GET in that it only takes a path, and no req
 	/users/fred
 	
 This will delete the user entity with the username of "fred".
+
+
+###Log In
+This example uses the "Sandbox" app, which does not require authentication, so logging in is not required to make calls against the API.  However, even in the "Sandbox", it is still possible to get an OAuth token.  We have included a sample to illustrate how to accomplish this.
+
+To make a call to get an OAuth token, simply make a GET request against the /token endpoint.  
+
+ 	/token?username={username here}&password={password here}&grant_type=password"
+  
+This will return an app level token from the API.  Store it, and use to for future calls agains the API.  
 
 ##Under the hood
 The code in this example is all standard Javascript and jQuery. The most interesting part will likely be the section of code that actually makes the calls to the API.
