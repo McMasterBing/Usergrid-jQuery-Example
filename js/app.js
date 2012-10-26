@@ -62,6 +62,12 @@ $(document).ready(function () {
       $('#delete-page').show();
    });
 
+   $('#show-login').bind('click', function() {
+      $('#main').hide();
+      $('#main-menu').show();
+      $('#login-page').show();
+   });
+
    $('#run-get').bind('click', function() {
       _get();
    });
@@ -78,6 +84,9 @@ $(document).ready(function () {
       _delete();
    });
 
+   $('#run-login').bind('click', function() {
+      _login();
+   });
 
 
    //bind the main-menu button
@@ -86,6 +95,7 @@ $(document).ready(function () {
       $('#post-page').hide();
       $('#put-page').hide();
       $('#delete-page').hide();
+      $('#login-page').hide();
       $('#main').show();
       $('#main-menu').hide();
       $("#response").html('');
@@ -96,7 +106,7 @@ $(document).ready(function () {
       var path = $("#get-path").val();
       apiRequest('GET', path, null,
          function(response) {
-           var output = JSON.stringify(response);
+           var output = JSON.stringify(response, null, 2);
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
@@ -110,7 +120,7 @@ $(document).ready(function () {
       var data = $("#post-data").val();
       apiRequest('POST', path, data,
          function(response) {
-           var output = JSON.stringify(response);
+           var output = JSON.stringify(response, null, 2);
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
@@ -124,7 +134,7 @@ $(document).ready(function () {
       var data = $("#put-data").val();
       apiRequest('PUT', path, data,
          function(response) {
-           var output = JSON.stringify(response);
+           var output = JSON.stringify(response, null, 2);
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
@@ -133,11 +143,26 @@ $(document).ready(function () {
       );
    }
 
-    function _delete() {
+   function _delete() {
       var path = $("#delete-path").val();
       apiRequest('DELETE', path, null,
          function(response) {
-           var output = JSON.stringify(response);
+           var output = JSON.stringify(response, null, 2);
+           $("#response").html('<pre>'+output+'</pre>');
+         },
+         function (response) {
+           $("#response").html('<pre>ERROR: '+response+'</pre>');
+         }
+      );
+   }
+   
+   function _login() {
+      var username = $("#username").val();
+      var password = $("#password").val();
+      var path = 'token?username='+username+'&password='+password+'&grant_type=password';
+      apiRequest('GET', path, null,
+         function(response) {
+           var output = JSON.stringify(response, null, 2);
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
