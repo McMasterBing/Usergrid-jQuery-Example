@@ -36,7 +36,7 @@ $(document).ready(function () {
    //path to the api
    var apiUrl = "https://api.usergrid.com/"+org+"/"+app+"/";
    var accessToken = null;
-   
+
    //bind the show buttons
    $('#show-get').bind('click', function() {
       $('#main').hide();
@@ -110,7 +110,8 @@ $(document).ready(function () {
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
-           $("#response").html('<pre>ERROR: '+response+'</pre>');
+           var output = JSON.stringify(response, null, 2);
+           $("#response").html('<pre>ERROR: '+output+'</pre>');
          }
       );
    }
@@ -124,7 +125,8 @@ $(document).ready(function () {
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
-           $("#response").html('<pre>ERROR: '+response+'</pre>');
+           var output = JSON.stringify(response, null, 2);
+           $("#response").html('<pre>ERROR: '+output+'</pre>');
          }
       );
    }
@@ -138,7 +140,8 @@ $(document).ready(function () {
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
-           $("#response").html('<pre>ERROR: '+response+'</pre>');
+           var output = JSON.stringify(response, null, 2);
+           $("#response").html('<pre>ERROR: '+output+'</pre>');
          }
       );
    }
@@ -151,24 +154,26 @@ $(document).ready(function () {
            $("#response").html('<pre>'+output+'</pre>');
          },
          function (response) {
-           $("#response").html('<pre>ERROR: '+response+'</pre>');
+           var output = JSON.stringify(response, null, 2);
+           $("#response").html('<pre>ERROR: '+output+'</pre>');
          }
       );
    }
-   
+
    function _login() {
       var username = $("#username").val();
       var password = $("#password").val();
-      var path = 'token?username='+username+'&password='+password+'&grant_type=password';
-      apiRequest('GET', path, null,
-         function(response) {
-           var output = JSON.stringify(response, null, 2);
-           $("#response").html('<pre>'+output+'</pre>');
-         },
-         function (response) {
-           $("#response").html('<pre>ERROR: '+response+'</pre>');
-         }
-      );
+      var data = '{"grant_type":"password","username":"'+username+'","password":"'+password+'"}';
+      apiRequest('POST', 'token', data,
+        function(response) {
+          var output = JSON.stringify(response, null, 2);
+          $("#response").html('<pre>'+output+'</pre>');
+        },
+        function (response) {
+          var output = JSON.stringify(response, null, 2);
+          $("#response").html('<pre>ERROR: '+output+'</pre>');
+        }
+     );
    }
 
    function apiRequest(method, path, data, success, error) {
