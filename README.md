@@ -29,7 +29,7 @@ js/app.js
 The js/app.js file is where all the javascript code resides and where all calls to the API are made. On line 32 of this file, find this code:
 
 	//Your org and app combination - change this!!
-	var org = 'apigee'; //<== your organizaiton
+	var org = 'apigee'; //<== your organization
 	var app = 'sandbox';//<== your application
 
 And put in your account information, so that when you run the code it will connect to the correct account.
