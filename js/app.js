@@ -166,6 +166,7 @@ $(document).ready(function () {
       var data = '{"grant_type":"password","username":"'+username+'","password":"'+password+'"}';
       apiRequest('POST', 'token', data,
         function(response) {
+          accessToken = response.access_token; //save the token
           var output = JSON.stringify(response, null, 2);
           $("#response").html('<pre>'+output+'</pre>');
         },
@@ -189,7 +190,7 @@ $(document).ready(function () {
     }
 
     ajaxOptions.beforeSend = function(xhr) {
-       if (accessToken) { xhr.setRequestHeader("Authorization", "Bearer " + session.accessToken) }
+       if (accessToken) { xhr.setRequestHeader("Authorization", "Bearer " + accessToken) }
     }
 
     $.ajax(ajaxOptions);
